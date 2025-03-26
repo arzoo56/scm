@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="pasta_e_vino.css">
+    <style>body {
+        background-image: url('https://tse1.mm.bing.net/th?id=OIP.XXbv7R9Bejm54jb7sz2BkAHaEK&pid=Api&P=0&h=220'); 
+        background-size: cover;                  
+        background-repeat: no-repeat;          
+        background-position: center center;    
+      }
+      
+    .icon{
+        justify-content: left;
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+    .name{
+        font-size: 66px;
+        text-align: center;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        color:rgb(227, 125, 91);
+        
+    }
+    
+    .menu-container {
+        text-align: center;
+        margin:0;
+        padding: 0;
+    }
+    
+    .menu-title {
+        font-size: 2rem;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        color: lightslategray;
+        text-shadow: grey;
+        display: inline-block;
+        padding-bottom: 50px;
+        text-align: center;
+        justify-content: center;
+        margin:0;
+        padding: 0;
+    }
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin:0;
+        padding: 0;
+    }
+    
+    .search-box {
+        width: 300px;
+        border: 2px solid lightslategray;
+        border-radius: 5px 0 5px ;
+        outline: none;
+        margin:0;
+        padding: 0;
+    }
+    
+    .search-btn {
+        border: 5px;
+        background-color:rgb(208, 161, 100);
+        color: white;
+        border-radius: 4px 3px ;
+        cursor: pointer;
+        margin:0;
+        padding: 0;
+    }
+    .search-btn:hover {
+        background-color: peru;
+    }
+    
+    
+    .food-items-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .food-item {
+        background-color:rgb(235,235,235);
+        border: 1px solid white;
+        box-shadow:0 0 10px rgba(0, 0, 0, 0.8);
+        margin: 1rem;
+        padding: 1rem;
+        width: 200px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 58vh;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .food-item:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .food:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    
+    .food-item img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ;
+    }
+    
+    .food-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .food-item h2 {
+        font-size: 1.5rem;
+        color: #ff6f61;
+    }
+    
+    .food-item p {
+        font-size: 1rem;
+        color: #333;
+    }
+    
+    .price {
+        font-weight: bold;
+        color: #ff6f61;
+    }
+    
+    .food-item-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .order-now-btn { 
+        background-color: #ff6f61; 
+        color: white; 
+        padding: 10px 20px; 
+        border: none; 
+        border-radius: 5px; 
+        font-size: 1rem; 
+        cursor: pointer; 
+        transition: background-color 0.3s; 
+    } 
+    .order-now-btn:hover { 
+        background-color: #ff4c39; 
+    }
+
+    
+    .cart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .cart-btn span{
+          font-size:14px;
+        }
+        .cart-btn::before {
+    content: "🛒"; /* Target the emoji specifically */
+    font-size: 24px; /* Increase the size of the emoji */
+    margin-right: 5px; /* Add space between the emoji and the text */
+}
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    z-index: 999;
+}
+.cart-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    width: 300px;
+    height:350px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    text-align: center;
+}
+        .cart-popup h2 {
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .cart-total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+        #cartItems {
+    max-height: 200px; /* Limit height to make it scrollable */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    margin-bottom: 15px; /* Space below cart items */
+    border: 1px solid #ddd; /* Optional: border for visual clarity */
+    padding: 10px; /* Padding inside the scroll area */
+}
+        .close-btn, .delivery-btn {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Button hover effect */
+.close-btn:hover, .delivery-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Anchor in button style fix */
+.delivery-btn a {
+    color: white;
+    text-decoration: none;
+}
+/* Overlay - Full-screen background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none; /* Hidden by default */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Cart Popup */
+.cart-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+  transition: all 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.cart-popup h2 {
+  font-size: 1.8rem;
+  color: #2b6cb0;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#cartItems {
+  margin-bottom: 20px;
+}
+
+.cart-total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b6cb0;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+/* Close Button */
+.close-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.close-btn:hover {
+  background-color: #c53030;
+}
+
+/* Go for Delivery Button */
+.delivery-btn {
+  background-color: #38a169;
+  color: white;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.delivery-btn:hover {
+  background-color: #2f855a;
+  text-decoration: none;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .cart-popup {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .cart-popup h2 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+}
+
+    .food {
+        background-color:rgb(235,235,235);
+        border: 1px solid #ddd;
+        margin: 1rem;
+        padding: 1rem;
+        width: 200px;
+        height: 55vh;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .food:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .food img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+        transition: transform 0.3s;
+    }
+    
+    .food:hover img {
+        transform: scale(1.1); 
+    }
+    .food h2 {
+        font-size: 1.5rem;
+        color: #ff6f61;
+    }
+    
+    .food p {
+        font-size: 1rem;
+        color: #333;
+    }
+    
+    .price {
+        font-weight: bold;
+        color: #ff6f61;
+    }
+    .order-now-btn { 
+        background-color: #ff6f61; 
+        color: white; 
+        padding: 10px 10px; 
+        border: none; 
+        border-radius: 5px; 
+        font-size: 1rem; 
+        cursor: pointer; 
+        transition: background-color 0.3s; 
+    } 
+    .order-now-btn:hover { 
+        background-color: #ff4c39; 
+    }
+    .lasagna{
+        padding: 30;
+        color:darkgoldenrod;
+        text-align: center;
+    }
+    .pasta{
+        padding: 30;
+        color:darkgoldenrod;
+        text-align: center;
+    }
+    .pizza{
+        padding: 30;
+        color:darkgoldenrod;
+        text-align: center;
+        overflow-x: scroll;
+        overflow: hidden;
+    }
+    .coffee{
+        padding: 30;
+        color:darkgoldenrod;
+        text-align: center;
+    }</style>
+</head>
+<body>
+    <div class="icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+      </svg>
+    
+    </div>
+    <div class="name">
+        <p class="head">Pasta e vino</p>
+<div class="menu-container">
+    <h6 class="menu-title">MENU</h6>
+    <div class="search-container">
+        <input type="text" placeholder="Search..." class="search-box">
+        <button class="search-btn">Search</button>
+    </div>
+</div>
+</div>
+<h1 class="lasagna">Lasagna</h1>
+<div class="food-items-row">
+    <div class="food-item">
+        <img src="https://www.thespruceeats.com/thmb/SoQDFcyvU-oZ8OES2awTqssI0IQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Step_3_Italian_Sausage_Lasagna-5a99f19b3418c60036cd998e.jpg" alt="Italian Sausage Lasagna">
+        <h2>Italian Sausage Lasagna</h2>
+        <p>Made with Italian sausage, making it super satisfying.</p>
+        <p class="price">Rs.210</p>
+        <button class="order-now-btn"data-name="Italian Sausage Lasagna" data-price="210">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgt6zOW0gjgSbC5r0_iHZrjtubXjWO5ZPr4TrNAVB0i4lUnUhVkmIrSE00MVB-XiZQWFY&usqp=CAU" alt="Pierogi Lasagna">
+        <h2>Pierogi Lasagna</h2>
+        <p>Delicious, creamy, cheese-laden, hearty lasagna casserole dish.</p>
+        <p class="price">Rs.230</p>
+        <button class="order-now-btn"data-name="Pierogi Lasagna" data-price="230">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://www.thespruceeats.com/thmb/iD0ggwCwSfuvxonmdb-e-JlB0TM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/1-lasagna-giant-56a9becb5f9b58b7d0fe9bde.jpg" alt="Spinach lasagna">
+        <h2>Spinach Lasagna</h2>
+        <p>Layers of smooth, creamy ricotta, salty mozzarella cheese.</p>
+        <p class="price">Rs.200</p>
+        <button class="order-now-btn"data-name="Spinach Lasagna" data-price="200">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://www.thespruceeats.com/thmb/wXnvsR0Ne7lAJ5lzjKMLyz_n-F0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/spinach-and-beef-lasagna-recipe-3057978-hero-01-6ff5ee66cbf34d409efa02ddcc5e82b7.jpg" alt="Spicy Chicken Lasagna">
+        <h2>Spicy Chicken Lasagna</h2>
+        <p>Unique chicken lasagna, with Mexican cooking.</p>
+        <p class="price">Rs.250</p>
+        <button class="order-now-btn"data-name="Spicy Chicken Lasagna" data-price="250">Order Now</button>
+        </div></div>
+
+<h1 class="pasta">Pasta</h1>
+<div class="food-item-row">
+    <div class="food-item">
+        <img src="https://res.cloudinary.com/zicasso/image/fetch/c_fill,f_auto,g_auto,h_576,q_auto,w_865/https://images.zicasso.com/c782b17f6327ee301f4db28fee806aa7.jpg" alt="Spaghetti">
+        <h2>Spaghetti</h2>
+        <p>Quintessential Italian pasta, a truly memorable first course.</p>
+        <p class="price">Rs.150</p>
+        <button class="order-now-btn"data-name="Spaghetti" data-price="150">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://res.cloudinary.com/zicasso/image/fetch/c_fill,f_auto,g_auto,h_576,q_auto,w_865/https://images.zicasso.com/1649091c7657c3a175217e948d5ea51d.jpg" alt="Penne">
+        <h2>Penne</h2>
+        <p>Stuffed with spinach and ricotta cheese, topped with cream sauces.</p>
+        <p class="price">Rs.120</p>
+        <button class="order-now-btn"data-name="Penne" data-price="120">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://res.cloudinary.com/zicasso/image/fetch/c_fill,f_auto,g_auto,h_576,q_auto,w_865/https://images.zicasso.com/6bf673012072ec779adcb0d9e3ec8b33.jpg" alt="Linguine">
+        <h2>Linguine</h2>
+        <p>Carries the typical toppings of pesto sauce or seafood, green beans.</p>
+        <p class="price">Rs.110</p>
+        <button class="order-now-btn"data-name="Linguine" data-price="110">Order Now</button>
+    </div>
+    <div class="food-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDoBTLPoR4DRWw0c3jBgjfbvD58aF892nMLc0LU9P1nxv7-A5WU25IdVKMngsBzSqkFF8&usqp=CAU" alt="Lemon Orzo">
+        <h2>Lemon Orzo</h2>
+        <p>Get ready for a burst of flavor with our Cheesy Lemon Orzo!</p>
+        <p class="price">Rs.160</p>
+        <button class="order-now-btn"data-name="Lemon Orzo" data-price="160">Order Now</button>
+    </div></div>
+
+    <h1 class="pizza">Pizza</h1>
+    <div class="food-item-row">
+        <div class="food">
+            <img src="https://images.getbento.com/accounts/c3d5c00dc56eb47e2e4b4b27d99c5c7b/media/images/44841istockphoto-1414575281-170667a.webp?w=1200&fit=crop&auto=compress,format&cs=origin&crop=focalpoint&fp-x=0.5&fp-y=0.5" alt="Pizza Margherita">
+            <h2>Pizza Margherita</h2>
+            <p>Garnished with peeled tomatoes, mozzarella, basil leaves, olive oil.</p>
+            <p class="price">Rs.220</p>
+            <button class="order-now-btn"data-name="Pizza Margherita" data-price="220">Order Now</button>
+        </div>
+        <div class="food">
+            <img src="http://italybest.com/wp-content/uploads/2021/03/515-1024x577.png" alt="Pizza Capricciosa">
+            <h2>Pizza Capricciosa</h2>
+            <p>One of the most classy pizzas with rich and mouth watering taste.</p>
+            <p class="price">Rs.190</p>
+            <button class="order-now-btn"data-name="Pizza Capricciosa" data-price="190">Order Now</button>
+        </div>
+        <div class="food">
+            <img src="http://italybest.com/wp-content/uploads/2021/03/712-1024x577.png" alt="Pizza Diavola">
+            <h2>Pizza Diavola</h2>
+            <p>Devil's pizza, with mozzarella and addition of spicy salami.</p>
+            <p class="price">Rs.200</p>
+            <button class="order-now-btn"data-name="Pizza Diavola" data-price="200">Order Now</button>
+        </div>
+        <div class="food">
+            <img src="http://italybest.com/wp-content/uploads/2021/03/1012-1024x577.png" alt="Pizza Carrettiera">
+            <h2>Pizza Carrettiera</h2>
+            <p>A super tasty and delicious choice for the greedy ones!</p>
+            <p class="price">Rs.190</p>
+            <button class="order-now-btn"data-name="Pizza Carrettiera" data-price="190">Order Now</button>
+        </div>
+        <div class="food">
+            <img src="http://italybest.com/wp-content/uploads/2021/03/914-1024x577.png" alt="Pizza Boscaiola">
+            <h2>Pizza Boscaiola</h2>
+            <p>Topped with mozzarella, porcini or champignon mushrooms.</p>
+            <p class="price">Rs.210</p>
+            <button class="order-now-btn"data-name="Pizza Boscaiola" data-price="210">Order Now</button>
+        </div>
+       
+        
+    </div>
+
+        <h1 class="coffee">Coffee</h1>
+        <div class="food-item-row">
+            <div class="food">
+                <img src="https://rossiwrites.com/wp-content/uploads/2021/02/Espresso-served-with-sweets-Vicenza-Italy-rossiwrites.com_-810x538.jpg.webp" alt="Caffè lungo">
+                <h2>Caffè lungo</h2>
+                <p>Developed flavor with greater dilution of the coffee beans.</p>
+                <p class="price">Rs.120</p>
+                <button class="order-now-btn"data-name="Caffè lungo" data-price="120">Order Now</button>
+            </div>
+            <div class="food">
+                <img src="https://www.cafedumonde.co.uk/media/2400/pexels-chevanon-photography-312418-1.jpg?width=810&height=538&v=1d9b89e06b24430" alt="Cappuccino">
+                <h2>Cappuccino</h2>
+                <p>Cappuccino is flavoursome, intense and satisfying.</p>
+                <p class="price">Rs.180</p>
+                <button class="order-now-btn"data-name="Cappuccino" data-price="180">Order Now</button>
+            </div>
+            <div class="food">
+                <img src="https://www.thespruceeats.com/thmb/Hz677yfVdPECquUOekjv0b9yXTE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/SES-mocha-4797918-step-04-599987714aec41aba02f1f870e900dd8.jpg" alt="Caffe mocha">
+                <h2>Caffe mocha</h2>
+                <p>The perfect indulgence for chocolate lovers seeking a caffeine kick.</p>
+                <p class="price">Rs.170</p>
+                <button class="order-now-btn"data-name="Caffe Mocha" data-price="170">Order Now</button>
+            </div>
+            <div class="food">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWTI_uzW-QlgyuJFD8U_woNQSnGgsfB_1m9M83yq25VzaJMbJ3YbhI5ntG5x_11cuwBG0&usqp=CAU" alt="Caramel Latte">
+                <h2>Caramel Latte</h2>
+                <p>Deep coffee flavor with a kiss of sweet caramel.</p>
+                <p class="price">Rs.130</p>
+                <button class="order-now-btn"data-name="Caramel Latte" data-price="130">Order Now</button>
+            </div>
+
+          <!-- Cart Button -->
+          <button class="cart-btn" id="cartBtn">
+            <span style="font-size:24 px;"></span></span>
+          </button>
+
+<!-- Cart Popup -->
+<div class="overlay" id="overlay"></div>
+<div class="cart-popup" id="cartPopup">
+<h2>Your Cart</h2>
+<div id="cartItems"></div>
+<div class="cart-total" id="cartTotal">Total: Rs.0</div>
+<button class="close-btn" id="closeCart">Close</button>
+<button class="delivery-btn" id="closeCart"><a href="delivery_page.html">Go for delivery</button></a>
+</div>
+<script>
+// JavaScript to toggle the cart popup visibility
+document.getElementById("closeCart").addEventListener("click", function () {
+document.getElementById("cartPopup").style.display = "none";
+document.getElementById("overlay").style.display = "none";
+});
+
+document.getElementById("goForDelivery").addEventListener("click", function () {
+document.getElementById("cartPopup").style.display = "none";
+document.getElementById("overlay").style.display = "none";
+});
+
+// Function to show the popup (e.g., when adding an item to the cart)
+function showCartPopup() {
+document.getElementById("cartPopup").style.display = "block";
+document.getElementById("overlay").style.display = "block";
+}
+</script>
+<script>
+// Load cart from localStorage or initialize it
+const loadCart = () => JSON.parse(localStorage.getItem("cart")) || [];
+
+const saveCart = (cart) => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+};
+
+const updateCartUI = () => {
+    const cart = loadCart();
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartTotalPrice = document.getElementById('cartTotalPrice');
+
+    cartItemsContainer.innerHTML = ''; // Clear current items
+    let total = 0;
+
+    // Populate cart items
+    cart.forEach((item, index) => {
+        total += item.price;
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+            <span>${item.name} - Rs.${item.price}</span>
+            <button onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsContainer.appendChild(itemElement);
+    });
+
+    // Update total price
+    cartTotal.innerText = `Total: Rs.${total}`;
+    cartTotalPrice.innerText = total;
+};
+
+// Add item to cart
+const addToCart = (name, price) => {
+    const cart = loadCart();
+    cart.push({ name, price });
+    saveCart(cart);
+    updateCartUI();
+    alert(`${name} added to cart!`);
+};
+
+// Remove item from cart
+const removeFromCart = (index) => {
+    const cart = loadCart();
+    cart.splice(index, 1); // Remove item by index
+    saveCart(cart);
+    updateCartUI();
+};
+
+// Open cart popup
+const openCart = () => {
+    document.getElementById('cartPopup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    updateCartUI();
+};
+
+// Close cart popup
+const closeCart = () => {
+    document.getElementById('cartPopup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+};
+
+// Handle click on "Order Now" buttons
+document.querySelectorAll('.order-now-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const name = button.getAttribute('data-name');
+        const price = parseInt(button.getAttribute('data-price'), 10);
+        addToCart(name, price);
+    });
+});
+
+// Cart button click
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCart);
+document.getElementById('overlay').addEventListener('click', closeCart);
+
+// Initialize cart UI on page load
+updateCartUI();
+</script> 
+</body>
+</html>

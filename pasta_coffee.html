@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    
+    .cofe{
+        text-align: center;
+        padding: 30;
+        color:darkgoldenrod;
+        font-size: 4rem;
+    }
+    /* Overlay - Full-screen background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none; /* Hidden by default */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Cart Popup */
+.cart-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+  transition: all 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.cart-popup h2 {
+  font-size: 1.8rem;
+  color: #2b6cb0;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#cartItems {
+  margin-bottom: 20px;
+}
+
+.cart-total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b6cb0;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+/* Close Button */
+.close-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.close-btn:hover {
+  background-color: #c53030;
+}
+
+/* Go for Delivery Button */
+.delivery-btn {
+  background-color: #38a169;
+  color: white;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.delivery-btn:hover {
+  background-color: #2f855a;
+  text-decoration: none;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .cart-popup {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .cart-popup h2 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+}
+
+    .food-items-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .food-item {
+        background-color: white;
+        border: 1px solid #ddd;
+        margin: 1rem;
+        padding: 1rem;
+        width: 200px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 44vh;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .food-item:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .food:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    
+    .food-item img {
+        max-width: 100%;
+        height: 200px;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ;
+    }
+    
+    .food-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .food-item h2 {
+        font-size: 1.5rem;
+        color: #ff6f61;
+    }
+    
+    .food-item p {
+        font-size: 1rem;
+        color: #333;
+    }
+    
+    .price {
+        font-weight: bold;
+        color: #ff6f61;
+    }
+    
+    .food-item-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .food {
+        background-color: white;
+        border: 1px solid #ddd;
+        margin: 1rem;
+        padding: 1rem;
+        width: 200px;
+        height: 45vh;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .food:hover {
+        transform: translateY(-10px); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .food img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+        transition: transform 0.3s;
+    }
+    
+    .food:hover img {
+        transform: scale(1.1); 
+    }
+    .food h2 {
+        font-size: 1.5rem;
+        color: #ff6f61;
+    }
+    
+    .food p {
+        font-size: 1rem;
+        color: #333;
+    }
+    .cart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .cart-btn span{
+          font-size:14px;
+        }
+        .cart-btn::before {
+    content: "🛒"; /* Target the emoji specifically */
+    font-size: 24px; /* Increase the size of the emoji */
+    margin-right: 5px; /* Add space between the emoji and the text */
+}
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    z-index: 999;
+}
+.cart-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    width: 300px;
+    height:350px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    text-align: center;
+}
+        .cart-popup h2 {
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .cart-total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+        #cartItems {
+    max-height: 200px; /* Limit height to make it scrollable */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    margin-bottom: 15px; /* Space below cart items */
+    border: 1px solid #ddd; /* Optional: border for visual clarity */
+    padding: 10px; /* Padding inside the scroll area */
+}
+        .close-btn, .delivery-btn {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Button hover effect */
+.close-btn:hover, .delivery-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Anchor in button style fix */
+.delivery-btn a {
+    color: white;
+    text-decoration: none;
+}
+    </style>
+</head>
+<body>
+</div>
+
+<h1 class="coffee">Coffee</h1>
+<div class="food-item-row">
+    <div class="food">
+        <a href="pasta_e_vino.html"><img src="https://rossiwrites.com/wp-content/uploads/2021/02/Espresso-served-with-sweets-Vicenza-Italy-rossiwrites.com_-810x538.jpg.webp" alt="Caffè lungo"></a>
+        <h2>Caffè lungo</h2>
+        <p>Developed flavor with greater dilution of the coffee beans.</p>
+        <p class="price">Rs.120</p>
+    </div>
+    <div class="food">
+        <a href="pasta_e_vino.html"><img src="https://www.cafedumonde.co.uk/media/2400/pexels-chevanon-photography-312418-1.jpg?width=810&height=538&v=1d9b89e06b24430" alt="Cappuccino"></a>
+        <h2>Cappuccino</h2>
+        <p>Cappuccino is flavoursome, intense and satisfying.</p>
+        <p class="price">Rs.180</p>
+    </div>
+    <div class="food">
+        <a href="pasta_e_vino.html"><img src="https://www.thespruceeats.com/thmb/Hz677yfVdPECquUOekjv0b9yXTE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/SES-mocha-4797918-step-04-599987714aec41aba02f1f870e900dd8.jpg" alt="Caffe mocha"></a>
+        <h2>Caffe mocha</h2>
+        <p>The perfect indulgence for chocolate lovers seeking a caffeine kick.</p>
+        <p class="price">Rs.170</p>
+    </div>
+    <div class="food">
+        <a href="pasta_e_vino.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWTI_uzW-QlgyuJFD8U_woNQSnGgsfB_1m9M83yq25VzaJMbJ3YbhI5ntG5x_11cuwBG0&usqp=CAU" alt="Caramel Latte"></a>
+        <h2>Caramel Latte</h2>
+        <p>Deep coffee flavor with a kiss of sweet caramel.</p>
+        <p class="price">Rs.130</p>
+    </div>
+                <!-- Cart Button -->
+            <button class="cart-btn" id="cartBtn">
+                <span style="font-size:24 px;"></span></span>
+              </button>
+
+<!-- Cart Popup -->
+<div class="overlay" id="overlay"></div>
+<div class="cart-popup" id="cartPopup">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal">Total: Rs.0</div>
+    <button class="close-btn" id="closeCart">Close</button>
+    <button class="delivery-btn" id="closeCart"><a href="delivery_page.html">Go for delivery</button></a>
+</div>
+<script>
+// JavaScript to toggle the cart popup visibility
+document.getElementById("closeCart").addEventListener("click", function () {
+    document.getElementById("cartPopup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+});
+
+document.getElementById("goForDelivery").addEventListener("click", function () {
+    document.getElementById("cartPopup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+});
+
+// Function to show the popup (e.g., when adding an item to the cart)
+function showCartPopup() {
+    document.getElementById("cartPopup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+</script>
+<script>
+    // Load cart from localStorage or initialize it
+    const loadCart = () => JSON.parse(localStorage.getItem("cart")) || [];
+
+    const saveCart = (cart) => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    };
+
+    const updateCartUI = () => {
+        const cart = loadCart();
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartTotalPrice = document.getElementById('cartTotalPrice');
+
+        cartItemsContainer.innerHTML = ''; // Clear current items
+        let total = 0;
+
+        // Populate cart items
+        cart.forEach((item, index) => {
+            total += item.price;
+            const itemElement = document.createElement('div');
+            itemElement.className = 'cart-item';
+            itemElement.innerHTML = `
+                <span>${item.name} - Rs.${item.price}</span>
+                <button onclick="removeFromCart(${index})">Remove</button>
+            `;
+            cartItemsContainer.appendChild(itemElement);
+        });
+
+        // Update total price
+        cartTotal.innerText = `Total: Rs.${total}`;
+        cartTotalPrice.innerText = total;
+    };
+
+    // Add item to cart
+    const addToCart = (name, price) => {
+        const cart = loadCart();
+        cart.push({ name, price });
+        saveCart(cart);
+        updateCartUI();
+        alert(`${name} added to cart!`);
+    };
+
+    // Remove item from cart
+    const removeFromCart = (index) => {
+        const cart = loadCart();
+        cart.splice(index, 1); // Remove item by index
+        saveCart(cart);
+        updateCartUI();
+    };
+
+    // Open cart popup
+    const openCart = () => {
+        document.getElementById('cartPopup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        updateCartUI();
+    };
+
+    // Close cart popup
+    const closeCart = () => {
+        document.getElementById('cartPopup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    };
+
+    // Handle click on "Order Now" buttons
+    document.querySelectorAll('.order-now-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = button.getAttribute('data-name');
+            const price = parseInt(button.getAttribute('data-price'), 10);
+            addToCart(name, price);
+        });
+    });
+
+    // Cart button click
+    document.getElementById('cartBtn').addEventListener('click', openCart);
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    document.getElementById('overlay').addEventListener('click', closeCart);
+
+    // Initialize cart UI on page load
+    updateCartUI();
+</script> 
+</body>
+</html>

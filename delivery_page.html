@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    /* Universal Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa, #c3dafe);
+  color: #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 850px;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(200, 200, 200, 0.2);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Headings */
+h2 {
+  font-size: 2rem;
+  color: #2b6cb0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-size: 1.25rem;
+  color: #2c5282;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+h4::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #63b3ed;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Summary Section */
+.summary {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: #2b6cb0;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2c5282;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #e53e3e;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: #38a169;
+  color: white;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.btn-success:hover {
+  background: #2f855a;
+  transform: translateY(-3px);
+}
+
+/* Inputs */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  background: #f7fafc;
+  margin-bottom: 15px;
+  transition: box-shadow 0.2s ease, border 0.2s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #63b3ed;
+  box-shadow: 0 0 5px rgba(99, 179, 237, 0.5);
+  outline: none;
+}
+
+/* Order List */
+.list-group-item {
+  background: #edf2f7;
+  border: 1px solid rgba(220, 220, 220, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-group-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Payment Options */
+.form-check {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  margin-right: 10px;
+  accent-color: #2b6cb0;
+  width: 18px;
+  height: 18px;
+}
+
+.form-check-label {
+  font-size: 1rem;
+  color: #444;
+}
+
+/* Address List */
+#address-list p {
+  font-style: italic;
+  color: #718096;
+  text-align: center;
+}
+
+/* Total Price */
+#order-total {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: right;
+  color: #2b6cb0;
+}
+
+/* Modal */
+.modal-content {
+  border-radius: 15px;
+  padding: 20px;
+  background: #f7fafc;
+  border: 1px solid rgba(200, 200, 200, 0.3);
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2b6cb0;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">Delivery Information</h2>
+    <!-- Address Section -->
+    <div class="summary mb-4">
+      <h4>Delivery Address</h4>
+      <div id="address-list">
+        <p>No addresses available.</p>
+      </div>
+      <button class="btn btn-primary mt-2" id="add-address">Add New Address</button>
+    </div>
+    <!-- Order Summary -->
+ <div class="summary mb-4">
+    <h4>Order Summary</h4>
+    <ul id="order-items" class="list-group"></ul>
+    <p class="mt-3"><strong>Total:</strong> ₹<span id="order-total">0</span></p>
+  </div>
+  <script>  
+     document.addEventListener("DOMContentLoaded", function () {
+      // Load cart data
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const orderItems = document.getElementById("order-items");
+      const orderTotal = document.getElementById("order-total");
+
+      // Populate Order Summary
+      if (cart.length > 0) {
+        let total = 0;
+        cart.forEach((item, index) => {
+          total += item.price;
+  
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item";
+          listItem.innerHTML = `
+            ${item.name} - ₹${item.price}
+            <button class="btn btn-danger btn-sm float-end" onclick="removeCartItem(${index})">Remove</button>
+          `;
+          orderItems.appendChild(listItem);
+        }); 
+  
+         orderTotal.innerText = total;
+      } else {
+        orderItems.innerHTML = "<li class='list-group-item'>Your cart is empty.</li>";
+      }
+  
+       // Function to remove an item
+      window.removeCartItem = (index) => {
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload(); // Reload to update the UI
+      };
+    });
+  </script> 
+
+    <!-- Payment Options -->
+    <div class="summary mb-4">
+      <h4>Payment Options</h4>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="COD" checked>
+        <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="onlinePayment" value="Online">
+        <label class="form-check-label" for="onlinePayment">Online Payment</label>
+      </div>
+    </div>
+
+    <!-- Confirm Button -->
+    <button class="btn btn-success w-100" id="confirm-order">Confirm Order</button>
+  </div>
+
+  <!-- Address Modal -->
+  <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addressModalLabel">Add New Address</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="address-form">
+            <div class="mb-3">
+              <label for="houseNo" class="form-label">House No</label>
+              <input type="text" class="form-control" id="houseNo" required>
+            </div>
+            <div class="mb-3">
+              <label for="pincode" class="form-label">Pincode</label>
+              <input type="text" class="form-control" id="pincode" required>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Address</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Load Addresses from localStorage
+    const loadAddresses = () => {
+      const addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+      const addressList = document.getElementById("address-list");
+
+      if (addresses.length > 0) {
+        addressList.innerHTML = addresses
+          .map(
+            (address, index) => `
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="selectedAddress" id="address${index}" value="${index}">
+              <label class="form-check-label" for="address${index}">
+                ${address.name}, ${address.houseNo}, ${address.pincode}
+              </label>
+            </div>`
+          )
+          .join("");
+      } else {
+        addressList.innerHTML = `<p>No addresses available.</p>`;
+      }
+    };
+
+    // Save Address
+    document.getElementById("address-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const houseNo = document.getElementById("houseNo").value;
+      const pincode = document.getElementById("pincode").value;
+      const name = document.getElementById("name").value;
+
+      const addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+      addresses.push({ houseNo, pincode, name });
+      localStorage.setItem("addresses", JSON.stringify(addresses));
+
+      document.getElementById("address-form").reset();
+      const addressModal = bootstrap.Modal.getInstance(document.getElementById("addressModal"));
+      addressModal.hide();
+      loadAddresses();
+    });
+
+    // Initialize Address List on Load
+    window.addEventListener("load", loadAddresses);
+
+    // Add New Address Button
+    document.getElementById("add-address").addEventListener("click", function () {
+      const addressModal = new bootstrap.Modal(document.getElementById("addressModal"));
+      addressModal.show();
+    });
+
+    // Confirm Order
+    document.getElementById("confirm-order").addEventListener("click", function () {
+      const selectedAddressIndex = document.querySelector('input[name="selectedAddress"]:checked')?.value;
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      if (selectedAddressIndex !== undefined) {
+        const addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+        const selectedAddress = addresses[selectedAddressIndex];
+        alert(`Order confirmed! Address: ${selectedAddress.name}, Payment Method: ${paymentMethod}`);
+        window.location.href = "home_1.html";
+      } else {
+        alert("Please select a delivery address.");
+      }
+    });
+  </script>
+</body>
+</html>
